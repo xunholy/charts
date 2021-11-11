@@ -3,6 +3,16 @@ entries:
   cloudflared:
   - apiVersion: v2
     appVersion: 2021.11.0
+    created: "2021-11-11T21:32:01.654833979Z"
+    description: A Helm chart for running Cloudflared on Kubernetes
+    digest: dfbc728100b8079c13f797a2954cd8a8994ca4527b1b29f79870147ce7ef7c24
+    name: cloudflared
+    type: application
+    urls:
+    - https://github.com/xUnholy/charts/releases/download/cloudflared-0.1.1/cloudflared-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 2021.11.0
     created: "2021-11-11T10:10:54.444731922Z"
     description: A Helm chart for running Cloudflared on Kubernetes
     digest: d6e1d9ca4308ce46b938836274a81cb4c18f67349baf91931b8a25b91e1ba3cd
@@ -11,4 +21,4 @@ entries:
     urls:
     - https://github.com/xUnholy/charts/releases/download/cloudflared-0.1.0/cloudflared-0.1.0.tgz
     version: 0.1.0
-generated: "2021-11-11T10:10:54.444746021Z"
+generated: "2021-11-11T21:32:01.654850981Z"
