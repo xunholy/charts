@@ -59,10 +59,10 @@ spec:
         - name: secret-volume
           secret:
             {{- if not .Values.cloudflared.existingSecret }}
-            secretName: cloudflared-credential
+            secretName: {{ include "cloudflared.fullname" . }}
             {{- else }}
             secretName: {{ .Values.cloudflared.existingSecret }}
             {{- end }}
         - name: config-volume
           configMap:
-            name: cloudflared-config
+            name: {{ include "cloudflared.fullname" . }}
