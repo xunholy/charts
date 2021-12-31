@@ -34,6 +34,16 @@ entries:
   enemy-territory:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2021-12-31T04:22:25.416381738Z"
+    description: A Helm chart for Kubernetes
+    digest: 917e10f02793044aff21aeaf00e63e21f2745b99af9069e991930bd033580169
+    name: enemy-territory
+    type: application
+    urls:
+    - https://github.com/xUnholy/charts/releases/download/enemy-territory-0.1.3/enemy-territory-0.1.3.tgz
+    version: 0.1.3
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2021-12-31T04:14:34.222021312Z"
     description: A Helm chart for Kubernetes
     digest: 0f13d423e58b6e9d9bfce7838d74e25f3f506abd6bcb1e8cd0d527720a7395bf
@@ -62,4 +72,4 @@ entries:
     urls:
     - https://github.com/xUnholy/charts/releases/download/enemy-territory-0.1.0/enemy-territory-0.1.0.tgz
     version: 0.1.0
-generated: "2021-12-31T04:14:34.222043312Z"
+generated: "2021-12-31T04:22:25.416404239Z"
