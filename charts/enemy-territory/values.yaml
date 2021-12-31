@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: raspbernetes/enemy-territory
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -13,6 +13,13 @@ image:
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
+
+# (REQUIRED) Either an existing secret or configmap must contain the server.cfg; There is a default server.cfg in the image however, it is not secure.
+serverConfig:
+  # This is a reference to an existing secret containing the server.cfg;
+  existingSecret: ""
+  # This is a reference to an existing config map containing the server.cfg;
+  existingConfig: ""
 
 serviceAccount:
   # Specifies whether a service account should be created

@@ -35,18 +35,15 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 80
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
+              containerPort: 27960
+              protocol: UDP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: server-config
+              mountPath: /etlegacy/server.cfg
+              subPath: server.cfg
+              readOnly: true
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -59,3 +56,12 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+        - name: server-config
+          {{- if .Values.serverConfig.existingSecret }}
+          secret:
+            secretName: {{ include "enemy-territory.fullname" . }}
+          {{- else if .Values.serverConfig.existingConfig }}
+          configMap:
+            name: {{ .Values.serverConfig.existingConfig }}
+          {{- end }}
