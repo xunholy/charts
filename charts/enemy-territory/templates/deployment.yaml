@@ -41,7 +41,7 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             - name: server-config
-              mountPath: /etlegacy/server.cfg
+              mountPath: /etlegacy/etpro/server.cfg
               subPath: server.cfg
               readOnly: true
       {{- with .Values.nodeSelector }}
