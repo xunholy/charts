@@ -32,7 +32,7 @@ RUN wget https://www.gamestv.org/drop/etpro-3_2_6.zip && \
 
 COPY server.cfg /etlegacy/etpro/server.cfg
 
-COPY start.sh /etlegacy/start.sh
+COPY start_ettv.sh /etlegacy/start.sh
 
 EXPOSE 27960/udp
 

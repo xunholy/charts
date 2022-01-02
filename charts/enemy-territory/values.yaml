@@ -45,7 +45,12 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 27960
+  loadBalancerIP: ""
+  ports:
+  - name: TCP
+    port: 27960
+    protocol: TCP
+    targetPort: 27960
 
 ingress:
   enabled: false
