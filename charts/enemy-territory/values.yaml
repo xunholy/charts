@@ -47,7 +47,7 @@ service:
   type: ClusterIP
   loadBalancerIP: ""
   ports:
-  - name: UDP
+  - name: udp
     port: 27960
     protocol: UDP
     targetPort: 27960
