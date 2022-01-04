@@ -50,7 +50,7 @@ service:
   - name: udp
     port: 27960
     protocol: UDP
-    targetPort: 27960
+    targetPort: enemy-territory
 
 ingress:
   enabled: false
