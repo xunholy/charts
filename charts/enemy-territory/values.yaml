@@ -68,6 +68,21 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+# -- Specify any additional containers here as dictionary items. Each additional container should have its own key.
+# Helm templates can be used.
+additionalContainers:
+  git-sync:
+    name: git-sync
+    image: registry/git-sync:latest
+    imagePullPolicy: IfNotPresent
+    args:
+      - "--repo=https://github.com/xUnholy/etlegacy-server.git"
+      - "--branch=main"
+      - "--username=xunholy"
+      - "--password=${GITHUB_TOKEN}"
+      - "GIT_SYNC_DEST=/etlegacy/legacy/"
+      - "--wait"
+
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
