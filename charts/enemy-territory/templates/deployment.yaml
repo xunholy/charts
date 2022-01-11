@@ -39,13 +39,9 @@ spec:
               protocol: UDP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          {{- if or .Values.serverConfig.existingSecret .Values.serverConfig.existingConfig }}
           volumeMounts:
             - name: server-config
-              mountPath: /etlegacy/legacy/server.cfg
-              subPath: server.cfg
-              readOnly: true
-          {{- end }}
+              mountPath: /etlegacy/legacy
         {{- with .Values.additionalContainers }}
           {{- $additionalContainers := list }}
           {{- range $name, $container := . }}
@@ -68,14 +64,6 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- if or .Values.serverConfig.existingSecret .Values.serverConfig.existingConfig }}
       volumes:
         - name: server-config
-          {{- if .Values.serverConfig.existingSecret }}
-          secret:
-            secretName: {{ .Values.serverConfig.existingSecret }}
-          {{- else if .Values.serverConfig.existingConfig }}
-          configMap:
-            name: {{ .Values.serverConfig.existingConfig }}
-          {{- end }}
-      {{- end }}
+          emptyDir: {}
