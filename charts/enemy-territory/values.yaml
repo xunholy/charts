@@ -23,7 +23,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 # (REQUIRED)
-serverConfig:
+repoConfig:
   # The git repository owner; Either a user or organization: EG. https://github.com/<user/org>
   owner:
   # The git repository name: EG. https://github.com/<user/org>/<repository-name>.git

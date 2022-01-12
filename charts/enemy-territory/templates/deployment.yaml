@@ -28,35 +28,26 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
-        - args:
-          - --repo=https://github.com/{{ .Values.repoConfig.owner }}/{{ .Values.repoConfig.repository }}
-          - --branch={{ .Values.repoConfig.branch }
-          - --username={{ .Values.repoConfig.owner }
-          - --password={{ .Values.repoConfig.token }
-          - --root=/etlegacy/legacy/server
-          - --one-time=true
+        - name: git-sync
           image: "{{ .Values.initContainer.image.repository }}:{{ .Values.initContainer.image.tag }}"
-          imagePullPolicy: IfNotPresent
-          name: git-sync
+          imagePullPolicy: {{ .Values.initContainer.image.pullPolicy }}
+          args:
+            - --repo=https://github.com/{{ .Values.repoConfig.owner }}/{{ .Values.repoConfig.repository }}
+            - --branch={{ .Values.repoConfig.branch }}
+            - --username={{ .Values.repoConfig.owner }}
+            - --password={{ .Values.repoConfig.token }}
+            - --root=/etlegacy/legacy/server
+            - --one-time=true
           volumeMounts:
           - mountPath: /etlegacy/legacy/server
             name: server-config
-        restartPolicy: Always
-        schedulerName: default-scheduler
-        securityContext: {}
-        serviceAccount: enemy-territory
-        serviceAccountName: enemy-territory
-        terminationGracePeriodSeconds: 30
-        volumes:
-        - emptyDir: {}
-          name: server-config
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.container.image.repository }}:{{ .Values.container.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          args: ["cp /etlegacy/legacy/server/{{ .Values.repoConfig.repository }})/* /etlegacy/legacy/; /etlegacy/start.sh;" ]
+          imagePullPolicy: {{ .Values.container.image.pullPolicy }}
+          args: ["cp /etlegacy/legacy/server/{{ .Values.repoConfig.repository }}/* /etlegacy/legacy/; /etlegacy/start.sh;" ]
           command: ["/bin/bash", "-c", "--"]
           ports:
             - name: enemy-territory
