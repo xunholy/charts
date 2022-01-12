@@ -27,12 +27,37 @@ spec:
       serviceAccountName: {{ include "enemy-territory.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - args:
+          - --repo=https://github.com/{{ .Values.repoConfig.owner }}/{{ .Values.repoConfig.repository }}
+          - --branch={{ .Values.repoConfig.branch }
+          - --username={{ .Values.repoConfig.owner }
+          - --password={{ .Values.repoConfig.token }
+          - --root=/etlegacy/legacy/server
+          - --one-time=true
+          image: "{{ .Values.initContainer.image.repository }}:{{ .Values.initContainer.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          name: git-sync
+          volumeMounts:
+          - mountPath: /etlegacy/legacy/server
+            name: server-config
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: enemy-territory
+        serviceAccountName: enemy-territory
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: server-config
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.container.image.repository }}:{{ .Values.container.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args: ["cp /etlegacy/legacy/server/{{ .Values.repoConfig.repository }})/* /etlegacy/legacy/; /etlegacy/start.sh;" ]
+          command: ["/bin/bash", "-c", "--"]
           ports:
             - name: enemy-territory
               containerPort: 27960
@@ -41,17 +66,7 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             - name: server-config
-              mountPath: /etlegacy/legacy
-        {{- with .Values.additionalContainers }}
-          {{- $additionalContainers := list }}
-          {{- range $name, $container := . }}
-            {{- if not $container.name -}}
-              {{- $_ := set $container "name" $name }}
-            {{- end }}
-            {{- $additionalContainers = append $additionalContainers $container }}
-          {{- end }}
-          {{- tpl (toYaml $additionalContainers) $ | nindent 8 }}
-        {{- end }}
+              mountPath: /etlegacy/legacy/server
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
